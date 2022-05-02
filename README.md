@@ -1,19 +1,44 @@
-# Quiz-Game
-Gophercises Exercise 1 - Quiz Game
+# Gophercises Exercise 1 - Quiz Game
+
+## How to run the program?
+
+- Type in the following to run the quiz game: `go run main.go`
+
+
+## How does it work?
+
+- After running the program, a user will be prompted to start the quiz by entering a Y or N.
+- By typing N a user can exit the program, by typing Y the user can will initate the quiz and the program will display a question.
+
+```
+Do you want to start the quiz? Type Y or N.
+n
+exit status 3
+
+
+Do you want to start the quiz? Type Y or N.
+y
+What is the answer to this question?
+3+3
+
+
+```
+
+## How to run tests?
+
+Go into the directory you wish to run tests and enter the following: `go test`
+
 
 ---
-# Exercise #1: Quiz Game
 
-[![exercise status: released](https://img.shields.io/badge/exercise%20status-released-green.svg?style=for-the-badge)](https://gophercises.com/exercises/quiz)
-
-## Exercise details
+## Original Exercise Requirements
 
 This exercise is broken into two parts to help simplify the process of explaining it as well as to make it easier to solve. The second part is harder than the first, so if you get stuck feel free to move on to another problem then come back to part 2 later.
 
 *Note: I didn't break this into multiple exercises like I do for some exercises because both of these combined should only take ~30m to cover in screencasts.*
 
 ### Part 1
-
+ 
 Create a program that will read in a quiz provided via a CSV file (more details below) and will then give the quiz to a user keeping track of how many questions they get right and how many they get incorrect. Regardless of whether the answer is correct or wrong the next question should be asked immediately afterwards.
 
 The CSV file should default to `problems.csv` (example shown below), but the user should be able to customize the filename via a flag.

@@ -2,9 +2,11 @@ package questions
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
+// Retrieve the questions and answers and store in a map
 func ParseQuestions(records []string) map[string]string {
 
 	var question string
@@ -23,7 +25,8 @@ func ParseQuestions(records []string) map[string]string {
 	return questionsAndAnswers
 }
 
-func UserContinue() bool {
+// Check if the user wants to start the quiz
+func StartQuiz() bool {
 
 	var user string
 	fmt.Println("Do you want to start the quiz? Type Y or N.")
@@ -36,28 +39,52 @@ func UserContinue() bool {
 	}
 }
 
-// func OutputQuestions(questionsAndAnswers map[string]string) {
+// Output the questions for the user to read and collect user input
+func OutputQuestions(questionsAndAnswers map[string]string) map[string]string {
 
-// 	var userResponse string
-// 	userAnswers := make(map[string]string)
+	var userResponse string
+	userAnswers := make(map[string]string)
 
-// 	// Loop through all Q & As
-// 	for question, answer := range questionsAndAnswers {
-// 		// Output the Question to the screen
-// 		// Wait for user input
-// 		// Check if the answer is correct
-// 		// Record if the answer is correct or not
-// 		// Once all questions are looped through, output the results of the correct and incorrent answers
-// 		fmt.Println("What is the answer to this question?")
-// 		fmt.Println(question)
-// 		fmt.Scanln(&userResponse)
-// 		fmt.Println("Your Answer: " + userResponse)
+	for question, answer := range questionsAndAnswers {
+		fmt.Println("What is the answer to this question?")
+		fmt.Println(question)
+		fmt.Scanln(&userResponse)
+		fmt.Println("Your Answer: " + userResponse + "\n")
 
-// 		if strings.Contains(userResponse, answer) {
-// 			userAnswers[question] = "correct"
-// 		} else {
-// 			userAnswers[question] = "wrong"
-// 		}
-// 	}
+		if strings.Contains(userResponse, answer) {
+			userAnswers[question] = "correct"
+		} else {
+			userAnswers[question] = "wrong"
+		}
+	}
+	return userAnswers
+}
 
-// }
+// Check the user answers
+func CheckAnswers(userAnswers map[string]string) []int64 {
+
+	var answers []int64
+	var correctAnswers int64 = 0
+	var incorrectAnswers int64 = 0
+	for _, answer := range userAnswers {
+		if strings.Contains(answer, "correct") {
+			correctAnswers += 1
+		} else {
+			incorrectAnswers += 1
+		}
+	}
+	answers = append(answers, correctAnswers, incorrectAnswers)
+	return answers
+}
+
+// Output the amount of correct and incorrect answers
+func OutputResults(answers []int64) {
+
+	totalQuestions := answers[0] + answers[1]
+	correctAnswers := answers[0]
+	incorrectAnswers := answers[1]
+
+	fmt.Println("Total Questions: " + strconv.FormatInt(totalQuestions, 10))
+	fmt.Println("Total Correct Answers: " + strconv.FormatInt(correctAnswers, 10))
+	fmt.Println("Total Incorrect Answers: " + strconv.FormatInt(incorrectAnswers, 10))
+}

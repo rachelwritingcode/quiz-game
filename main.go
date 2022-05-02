@@ -1,17 +1,23 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	csv "quiz-game/csv"
 	q "quiz-game/questions"
 )
 
 func main() {
 
-	csvFile := csv.SetCSV()
-	records := csv.ReadCSV(csvFile)
-	questionsAndAnswers := q.ParseQuestions(records)
-	fmt.Println(questionsAndAnswers)
-	userInput := q.UserContinue()
-	fmt.Println(userInput)
+	userStart := q.StartQuiz()
+
+	if userStart {
+		csvFile := csv.SetCSV()
+		records := csv.ReadCSV(csvFile)
+		questionsAndAnswers := q.ParseQuestions(records)
+		userAnswers := q.OutputQuestions(questionsAndAnswers)
+		correctAnswers, incorrectAnswers := q.CheckAnswers(userAnswers)
+		q.OutputResults(correctAnswers, incorrectAnswers)
+	} else {
+		os.Exit(3)
+	}
 }
