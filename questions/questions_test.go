@@ -1,6 +1,7 @@
 package questions
 
 import (
+	"bytes"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -17,8 +18,21 @@ func TestParseQuestions(t *testing.T) {
 	assert.NotEqual(t, expected, ParseQuestions(testSlice), "Output should not be equal")
 }
 
-// func TestUserContinue(t *testing.T) {
-// }
+func TestStartQuiz(t *testing.T) {
+
+	var stdin bytes.Buffer
+	stdin.Write([]byte("Y\n"))
+	result := StartQuiz(&stdin)
+	assert.Equal(t, true, result)
+
+	stdin.Write([]byte("N\n"))
+	result = StartQuiz(&stdin)
+	assert.NotEqual(t, true, result)
+
+	stdin.Write([]byte("hello\n"))
+	result = StartQuiz(&stdin)
+	assert.Equal(t, false, result)
+}
 
 // func TestOutputQuestions(t *testing.T) {
 // }
@@ -37,6 +51,3 @@ func TestCheckAnswers(t *testing.T) {
 	expected = []int64{0, 4}
 	assert.Equal(t, expected, CheckAnswers(testMap), "Output should be equal")
 }
-
-// func TestOutputResults(t *testing.T) {
-// }

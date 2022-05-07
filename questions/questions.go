@@ -1,8 +1,10 @@
 package questions
 
 import (
+	"bufio"
 	"fmt"
-	"strconv"
+	"io"
+	"log"
 	"strings"
 )
 
@@ -12,9 +14,11 @@ func ParseQuestions(records []string) map[string]string {
 	var question string
 	var answer string
 	questionsAndAnswers := make(map[string]string)
-	// First index
+
+	// Assign first pair of questions
 	questionsAndAnswers[records[0]] = records[1]
 
+	// Assign remaining pairs of questions
 	for i := 2; i < len(records); i++ {
 		if i%2 == 0 {
 			question = records[i]
@@ -25,14 +29,26 @@ func ParseQuestions(records []string) map[string]string {
 	return questionsAndAnswers
 }
 
-// Check if the user wants to start the quiz
-func StartQuiz() bool {
+// Read the user input
+func ReadInput(stdin io.Reader) (string, error) {
+	reader := bufio.NewReader(stdin)
+	text, err := reader.ReadString('\n')
+	return text, err
+}
 
-	var user string
+// Prompt user if they wish to start the quiz
+func StartQuiz(stdin io.Reader) bool {
+
+	var userInput string
 	fmt.Println("Do you want to start the quiz? Type Y or N.")
-	fmt.Scanln(&user)
 
-	if strings.Contains(strings.ToUpper(user), "Y") {
+	str, err := ReadInput(stdin)
+	if err != nil {
+		log.Fatal()
+	}
+	userInput = string(str)
+
+	if strings.Contains(strings.ToUpper(userInput), "Y") {
 		return true
 	} else {
 		return false
@@ -75,16 +91,4 @@ func CheckAnswers(userAnswers map[string]string) []int64 {
 	}
 	answers = append(answers, correctAnswers, incorrectAnswers)
 	return answers
-}
-
-// Output the amount of correct and incorrect answers
-func OutputResults(answers []int64) {
-
-	totalQuestions := answers[0] + answers[1]
-	correctAnswers := answers[0]
-	incorrectAnswers := answers[1]
-
-	fmt.Println("Total Questions: " + strconv.FormatInt(totalQuestions, 10))
-	fmt.Println("Total Correct Answers: " + strconv.FormatInt(correctAnswers, 10))
-	fmt.Println("Total Incorrect Answers: " + strconv.FormatInt(incorrectAnswers, 10))
 }
