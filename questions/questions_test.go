@@ -34,20 +34,7 @@ func TestStartQuiz(t *testing.T) {
 	assert.Equal(t, false, result)
 }
 
-// func TestOutputQuestions(t *testing.T) {
-// }
-
-func TestCheckAnswers(t *testing.T) {
-
-	testMap := map[string]string{"3+1": "correct", "5+5": "correct"}
-	expected := []int64{2, 0}
-	assert.Equal(t, expected, CheckAnswers(testMap), "Output should be equal")
-
-	testMap = map[string]string{"3+1": "correct", "5+5": "wrong", "6+1": "correct", "6+5": "wrong"}
-	expected = []int64{2, 2}
-	assert.Equal(t, expected, CheckAnswers(testMap), "Output should be equal")
-
-	testMap = map[string]string{"3+1": "wrong", "5+5": "wrong", "6+1": "wrong", "6+5": "wrong"}
-	expected = []int64{0, 4}
-	assert.Equal(t, expected, CheckAnswers(testMap), "Output should be equal")
+func TestSetTimeout(t *testing.T) {
+	expected := 30
+	assert.Equal(t, expected, SetTimeout(), "Output should be equal")
 }

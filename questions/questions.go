@@ -2,10 +2,13 @@ package questions
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"io"
 	"log"
+	"strconv"
 	"strings"
+	"time"
 )
 
 // Retrieve the questions and answers and store in a map
@@ -53,42 +56,51 @@ func StartQuiz(stdin io.Reader) bool {
 	} else {
 		return false
 	}
+
 }
 
 // Output the questions for the user to read and collect user input
-func OutputQuestions(questionsAndAnswers map[string]string) map[string]string {
+func OutputQuestions(questionsAndAnswers map[string]string, timeout int, stdin io.Reader) {
 
-	var userResponse string
-	userAnswers := make(map[string]string)
+	correctAnswers := 0
+	// Set the timer
+	timer := time.NewTimer(time.Duration(timeout) * time.Second)
 
+questionsloop:
+	// Display all the questions
 	for question, answer := range questionsAndAnswers {
+
+		// Display the question
 		fmt.Println("What is the answer to this question?")
 		fmt.Println(question)
-		fmt.Scanln(&userResponse)
-		fmt.Println("Your Answer: " + userResponse + "\n")
+		answerChannel := make(chan string)
 
-		if strings.Contains(userResponse, answer) {
-			userAnswers[question] = "correct"
-		} else {
-			userAnswers[question] = "wrong"
+		go func() {
+			userResponse, err := ReadInput(stdin)
+			if err != nil {
+				log.Fatal(err)
+			}
+			userResponse = strings.TrimSpace(string(userResponse))
+			answerChannel <- userResponse
+		}()
+
+		select {
+		case <-timer.C:
+			fmt.Println()
+			break questionsloop
+		case userResponse := <-answerChannel:
+			if userResponse == answer {
+				correctAnswers++
+			}
 		}
 	}
-	return userAnswers
+	fmt.Println("Score is " + strconv.Itoa(correctAnswers) + " Correct Answers out of " + strconv.Itoa((len(questionsAndAnswers))) + " Questions")
+
 }
 
-// Check the user answers
-func CheckAnswers(userAnswers map[string]string) []int64 {
-
-	var answers []int64
-	var correctAnswers int64 = 0
-	var incorrectAnswers int64 = 0
-	for _, answer := range userAnswers {
-		if strings.Contains(answer, "correct") {
-			correctAnswers += 1
-		} else {
-			incorrectAnswers += 1
-		}
-	}
-	answers = append(answers, correctAnswers, incorrectAnswers)
-	return answers
+// Set the timer
+func SetTimeout() int {
+	timeout := flag.Int("timeout", 30, "length of time per question")
+	flag.Parse()
+	return *timeout
 }
