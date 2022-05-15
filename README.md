@@ -9,18 +9,26 @@
 
 - After running the program, a user will be prompted to start the quiz by entering a Y or N.
 - By typing N a user can exit the program, by typing Y the user can will initate the quiz and the program will display a question.
+- A default timer is set to 30 seconds however, if you pass in a -timeout parameter, you can set your own timer.
+- Below is an example of a quiz session with the timeout parameter.
 
 ```
-Do you want to start the quiz? Type Y or N.
-n
-exit status 3
-
-
+go run main.go -timeout=5
 Do you want to start the quiz? Type Y or N.
 y
 What is the answer to this question?
-3+3
+8+6
+14
+What is the answer to this question?
+1+4
+5
+What is the answer to this question?
+5+1
+6
+What is the answer to this question?
+2+4
 
+Score is 3 Correct Answers out of 12 Questions
 
 ```
 
