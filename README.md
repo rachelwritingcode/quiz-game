@@ -1,16 +1,19 @@
-# Gophercises Exercise 1 - Quiz Game
+# Gophercises Exercise 1 - Quiz Game 🧑‍🏫
 
-## How to run the program?
-
+## How to run the program? 🏃
+ 
 - Type in the following to run the quiz game: `go run main.go`
 
 
-## How does it work?
+## What is this? 🤔
 
-- After running the program, a user will be prompted to start the quiz by entering a Y or N.
-- By typing N a user can exit the program, by typing Y the user can will initate the quiz and the program will display a question.
-- A default timer is set to 30 seconds however, if you pass in a -timeout parameter, you can set your own timer.
-- Below is an example of a quiz session with the timeout parameter.
+- I have built a quiz game, the user can insert or user the default csv file which includes questions and answers.
+- This program parses those questions and prompts the user to answer questions 
+- There is validation built to keep track of all correct answers
+- There is timer built-in which is has the default of 30 seconds or you may pass in the parameter `-timeout=XXX` with the desired amount of time.
+- If the timer runs out, the quiz automatically exits and will print out the user score.
+- Go ahead and give it a try! Test out your math and/or quiz questions of your choice! 😉 
+
 
 ```
 go run main.go -timeout=5
@@ -32,9 +35,9 @@ Score is 3 Correct Answers out of 12 Questions
 
 ```
 
-## How to run tests?
+## How to run tests? 🧪
 
-Go into the directory you wish to run tests and enter the following: `go test`
+Go into the directory where you wish to run tests and enter the following: `go test`
 
 
 ---
