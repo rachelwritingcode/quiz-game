@@ -9,6 +9,7 @@
 
 - I have built a quiz game, the user can insert or user the default csv file which includes questions and answers.
 - This program parses those questions and prompts the user to answer questions 
+- You can use the default problemset, `problems.csv` or provide a custom set of questions using the `-csv=XXX.csv` parameter
 - There is validation built to keep track of all correct answers
 - There is timer built-in which is has the default of 30 seconds or you may pass in the parameter `-timeout=XXX` with the desired amount of time.
 - If the timer runs out, the quiz automatically exits and will print out the user score.
